@@ -1,0 +1,1086 @@
+{
+	"info": {
+		"_postman_id": "86228950-afaf-4fb2-9f5e-d4ac97aef016",
+		"name": "04-ProductAPI,Tests ,Variables con Flujo Completo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29972918"
+	},
+	"item": [
+		{
+			"name": "V1",
+			"item": [
+				{
+					"name": "Happy Path",
+					"item": [
+						{
+							"name": "CREATE product",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonResponse = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"sku_created\", jsonResponse.sku);\r",
+											"pm.collectionVariables.set(\"sku_created\",jsonResponse.sku);\r",
+											"\r",
+											"pm.test(\"La solicitud POST fue completada con exito\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El código de estado de la respuesta es Creado\", function () {\r",
+											"    pm.response.to.have.status(\"Created\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El producto fue creado con exito\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.status).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"La respuesta presenta un esquema JSON valido\", () =>{\r",
+											"    const validSchema = {\r",
+											"        \"type\":\"object\",\r",
+											"        \"properties\":{\r",
+											"            \"sku\":{\"type\":\"string\"},\r",
+											"            \"status\": {\"type\":\"boolean\"},\r",
+											"            \"message\": {\"type\":\"string\"}\r",
+											"        },\r",
+											"        \"required\":[\"sku\",\"status\",\"message\"]\r",
+											"    };\r",
+											"    pm.response.to.have.jsonSchema(validSchema);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El tiempo de respuesta es menor a 800ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Llamada a listar productos\", (done) => {\r",
+											"    pm.sendRequest({\r",
+											"        url:  \"localhost:8083/api/v1/product/\", \r",
+											"        method: 'GET',\r",
+											"        header: {\r",
+											"            'content-type': 'application/json',\r",
+											"            'Accept': \"*/*\"\r",
+											"        },\r",
+											"    }, (err, response) => {\r",
+											"        console.log(response);\r",
+											"        pm.expect(response.code).to.equal(200);\r",
+											"        done();\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"{{name}}\",\r\n    \"description\":\"{{description}}\",\r\n    \"price\":{{price}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8083/api/v1/product/",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"api",
+										"v1",
+										"product",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE product",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"La solicitud PUT fue completada con exito\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El codigo de estado de la respuesta es OK\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El producto fue actualizado con exito\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.status).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El tiempo de respuesta es menor a 600ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"productNameUpdate\",\r\n    \"description\":\"productDescriptionUpdate\",\r\n    \"price\":100\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8083/api/v1/product/{{sku_created}}/",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"api",
+										"v1",
+										"product",
+										"{{sku_created}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE product price",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"La solicitud PATCH fue completada con exito\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El codigo de estado de la respuesta es OK\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El precio del producto fue actualizado con exito\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.status).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El tiempo de respuesta es menor a 600ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"productNameNoUpdate\",\r\n    \"description\":\"productDescriptionNoUpdate\",\r\n    \"price\":200\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8083/api/v1/product/{{sku_created}}/",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"api",
+										"v1",
+										"product",
+										"{{sku_created}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET products",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"La solicitud GET completada con exito\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El código de estado de la respuesta es OK\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El estado de la consulta fue exitoso!\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.status).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"La cantidad de productos es mayor a 0\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.products.length).to.greaterThan(0);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El tiempo de respuesta es menor a 600ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8083/api/v1/product/",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"api",
+										"v1",
+										"product",
+										""
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GET products",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": ":/api/v1/product/",
+											"port": "",
+											"path": [
+												"api",
+												"v1",
+												"product",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 17 Feb 2024 08:42:21 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"products\": [\n        {\n            \"id\": 1,\n            \"name\": \"Iphone 14\",\n            \"sku\": \"4d9ad93e-b36f-4cef-93d1-8eb60c46cd76\",\n            \"description\": \"Alta Gama\",\n            \"price\": 1500\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Iphone 14\",\n            \"sku\": \"b5ec77fd-96d3-4cbc-a61c-e9cae0f3c9ab\",\n            \"description\": \"Alta Gama\",\n            \"price\": 1500\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Se encontró 2 producto(s)\"\n}"
+								},
+								{
+									"name": "GET products",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8083/api/v1/product/",
+											"host": [
+												"localhost"
+											],
+											"port": "8083",
+											"path": [
+												"api",
+												"v1",
+												"product",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 17 Feb 2024 17:54:39 GMT"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=60"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"products\": [\n        {\n            \"id\": 1,\n            \"name\": \"Iphone11Update Premium\",\n            \"sku\": \"ef16ad31-51bb-48d9-b923-6a982e6fbeab\",\n            \"description\": \"description\",\n            \"price\": 1900\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Iphone12Update Premium\",\n            \"sku\": \"3db663e5-edd7-4dd0-aa41-863aebf0c992\",\n            \"description\": \"description\",\n            \"price\": 1900\n        },\n        {\n            \"id\": 15,\n            \"name\": \"Iphone15\",\n            \"sku\": \"9c72f57f-939f-463d-ae8b-cc38c2f6919a\",\n            \"description\": \"fff\",\n            \"price\": 1300\n        },\n        {\n            \"id\": 18,\n            \"name\": \"Iphone 14\",\n            \"sku\": \"c131fe22-fff0-45f3-9a72-a0543373bcb2\",\n            \"description\": \"Alta Gama\",\n            \"price\": 1500\n        }\n    ],\n    \"status\": true,\n    \"message\": \"Se encontró 4 producto(s)\"\n}"
+								}
+							]
+						},
+						{
+							"name": "GET product by sku",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"La solicitud GET fue completada con exito\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200]);//Preferido\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El código de estado de la respuesta es OK\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"La consulta fue completa con exito\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.status).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El producto fue encontrado!\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.products.length).to.greaterThan(0);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El tiempo de respuesta es menor a 600ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8083/api/v1/product/{{sku_created}}/",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"api",
+										"v1",
+										"product",
+										"{{sku_created}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE product by sku",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"La solicitud DELETE fue completada con exito\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200]);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El codigo de estado de la respuesta es OK\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El producto fue eliminado con exito\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.status).to.eql(true);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El tiempo de respuesta es menor a 600ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8083/api/v1/product/{{sku_created}}/",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"api",
+										"v1",
+										"product",
+										"{{sku_created}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Sad Path",
+					"item": [
+						{
+							"name": "Control de errores",
+							"item": [
+								{
+									"name": "CREATE product-nombre vacío",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonResponse = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"sku_created\", jsonResponse.sku);\r",
+													"pm.collectionVariables.set(\"sku_created\",jsonResponse.sku);\r",
+													"\r",
+													"pm.test(\"La solicitud POST no fue completada con exito\", function () {\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([400, 401]);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El código de estado de la respuesta es Bad Request\", function () {\r",
+													"    pm.response.to.have.status(\"Bad Request\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El producto no fue creado con exito\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.status).to.eql(false);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"La respuesta presenta un esquema JSON inválido\", () =>{\r",
+													"    const validSchema = {\r",
+													"        \"type\":\"object\",\r",
+													"        \"properties\":{\r",
+													"            \"sku\":{\"type\":\"string\"},\r",
+													"            \"status\": {\"type\":\"boolean\"},\r",
+													"            \"message\": {\"type\":\"string\"}\r",
+													"        },\r",
+													"        \"not required\":[\"sku\"]\r",
+													"    };\r",
+													"    pm.response.to.have.jsonSchema(validSchema);\r",
+													"});\r",
+													"\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\":\"\",\r\n    \"description\":\"{{description}}\",\r\n    \"price\":{{price}}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8083/api/v1/product/",
+											"host": [
+												"localhost"
+											],
+											"port": "8083",
+											"path": [
+												"api",
+												"v1",
+												"product",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CREATE product-description vacío",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonResponse = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"sku_created\", jsonResponse.sku);\r",
+													"pm.collectionVariables.set(\"sku_created\",jsonResponse.sku);\r",
+													"\r",
+													"pm.test(\"La solicitud POST no fue completada con exito\", function () {\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([400, 401]);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El código de estado de la respuesta es Bad Request\", function () {\r",
+													"    pm.response.to.have.status(\"Bad Request\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El producto no fue creado con exito\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.status).to.eql(false);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"La respuesta presenta un esquema JSON inválido\", () =>{\r",
+													"    const validSchema = {\r",
+													"        \"type\":\"object\",\r",
+													"        \"properties\":{\r",
+													"            \"sku\":{\"type\":\"string\"},\r",
+													"            \"status\": {\"type\":\"boolean\"},\r",
+													"            \"message\": {\"type\":\"string\"}\r",
+													"        },\r",
+													"        \"not required\":[\"sku\"]\r",
+													"    };\r",
+													"    pm.response.to.have.jsonSchema(validSchema);\r",
+													"});\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\":\"{{name}}\",\r\n    \"description\":\"\",\r\n    \"price\":{{price}}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8083/api/v1/product/",
+											"host": [
+												"localhost"
+											],
+											"port": "8083",
+											"path": [
+												"api",
+												"v1",
+												"product",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CREATE product-precio vacío",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonResponse = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"sku_created\", jsonResponse.sku);\r",
+													"pm.collectionVariables.set(\"sku_created\",jsonResponse.sku);\r",
+													"\r",
+													"pm.test(\"La solicitud POST no fue completada con exito\", function () {\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([400, 401]);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El código de estado de la respuesta es Bad Request\", function () {\r",
+													"    pm.response.to.have.status(\"Bad Request\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El producto no fue creado con exito\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.status).to.eql(false);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"La respuesta presenta un esquema JSON inválido\", () =>{\r",
+													"    const validSchema = {\r",
+													"        \"type\":\"object\",\r",
+													"        \"properties\":{\r",
+													"            \"sku\":{\"type\":\"string\"},\r",
+													"            \"status\": {\"type\":\"boolean\"},\r",
+													"            \"message\": {\"type\":\"string\"}\r",
+													"        },\r",
+													"        \"not required\":[\"sku\"]\r",
+													"    };\r",
+													"    pm.response.to.have.jsonSchema(validSchema);\r",
+													"});\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\":\"{{name}}\",\r\n    \"description\":\"{{description}}\",\r\n    \"price\":null\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8083/api/v1/product/",
+											"host": [
+												"localhost"
+											],
+											"port": "8083",
+											"path": [
+												"api",
+												"v1",
+												"product",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UPDATE product by sku no existente",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"La solicitud PUT no fue completada con exito\", function () {\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([404]);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El codigo de estado de la respuesta es Not Found\", function () {\r",
+													"    pm.response.to.have.status(\"Not Found\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El producto no fue actualizado con exito\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.status).to.eql(404);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\":\"{{name_updated}}\",\r\n    \"description\":\"{{description_updated}}\",\r\n    \"price\":{{price_updated}}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8083/api/v1/product/{{sku_created}}/",
+											"host": [
+												"localhost"
+											],
+											"port": "8083",
+											"path": [
+												"api",
+												"v1",
+												"product",
+												"{{sku_created}}",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UPDATE product by sku no existente",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"La solicitud PUT no fue completada con exito\", function () {\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([404]);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El codigo de estado de la respuesta es Not Found\", function () {\r",
+													"    pm.response.to.have.status(\"Not Found\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El producto no fue actualizado con exito\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.status).to.eql(404);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\":\"{{content_no_updatable}}\",\r\n    \"description\":\"{{content_no_updatable}}\",\r\n    \"price\":{{price_only_update}}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8083/api/v1/product/{{sku_created}}/",
+											"host": [
+												"localhost"
+											],
+											"port": "8083",
+											"path": [
+												"api",
+												"v1",
+												"product",
+												"{{sku_created}}",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET products path inválido",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"La solicitud GET no fue completada con exito\", function () {\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([404]);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El código de estado de la respuesta es Not Found\", function () {\r",
+													"    pm.response.to.have.status(\"Not Found\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El estado de la consulta no fue exitoso :(\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.status).to.eql(404);\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8083/api/v1/products/",
+											"host": [
+												"localhost"
+											],
+											"port": "8083",
+											"path": [
+												"api",
+												"v1",
+												"products",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET product by sku no existente",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"La consulta no fue completa con exito\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.status).to.eql(false);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El producto no fue encontrado!\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.products.length).to.not.greaterThan(0);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8083/api/v1/product/sku123/",
+											"host": [
+												"localhost"
+											],
+											"port": "8083",
+											"path": [
+												"api",
+												"v1",
+												"product",
+												"sku123",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE product by sku no existente",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"La solicitud DELETE no fue completada con exito\", function () {\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([400,404]);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El codigo de estado de la respuesta es Not Found\", function () {\r",
+													"    pm.response.to.have.status(\"Not Found\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"El producto no fue eliminado\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.status).to.eql(404);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8083/api/v1/product/{{sku_created}}/",
+											"host": [
+												"localhost"
+											],
+											"port": "8083",
+											"path": [
+												"api",
+												"v1",
+												"product",
+												"{{sku_created}}",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "name",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "description",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "price",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "sku_created",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "name_updated",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "description_updated",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "price_updated",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "content_no_updatable",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "price_only_update",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "host",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "puerto",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="04-ProductAPI,Tests ,Variables con Flujo Completo" tests="84" time="0.271">
+  <testsuite name="V1 / Happy Path / CREATE product" id="7be2c1e4-f4c2-4b2a-b37d-bf94320ea620" timestamp="2024-04-01T05:43:44.841Z" tests="6" failures="0" errors="0" time="0.004">
+    <testcase name="La solicitud POST fue completada con exito" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El código de estado de la respuesta es Creado" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El producto fue creado con exito" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="La respuesta presenta un esquema JSON valido" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El tiempo de respuesta es menor a 800ms" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="Llamada a listar productos" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+  </testsuite>
+  <testsuite name="V1 / Happy Path / UPDATE product" id="89c2b5b6-c5ae-49c6-a49e-fe0ffca2007e" timestamp="2024-04-01T05:43:44.841Z" tests="4" failures="0" errors="0" time="0.004">
+    <testcase name="La solicitud PUT fue completada con exito" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El codigo de estado de la respuesta es OK" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El producto fue actualizado con exito" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El tiempo de respuesta es menor a 600ms" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+  </testsuite>
+  <testsuite name="V1 / Happy Path / UPDATE product price" id="a06d9616-4a2d-4b2a-b921-c6581539f48b" timestamp="2024-04-01T05:43:44.841Z" tests="4" failures="0" errors="0" time="0.004">
+    <testcase name="La solicitud PATCH fue completada con exito" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El codigo de estado de la respuesta es OK" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El precio del producto fue actualizado con exito" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El tiempo de respuesta es menor a 600ms" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+  </testsuite>
+  <testsuite name="V1 / Happy Path / GET products" id="62559b7e-01d5-4f83-825b-9f5d9f64f850" timestamp="2024-04-01T05:43:44.841Z" tests="5" failures="0" errors="0" time="0.003">
+    <testcase name="La solicitud GET completada con exito" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El código de estado de la respuesta es OK" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El estado de la consulta fue exitoso!" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="La cantidad de productos es mayor a 0" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El tiempo de respuesta es menor a 600ms" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+  </testsuite>
+  <testsuite name="V1 / Happy Path / GET product by sku" id="dfa67d81-8da3-4d60-b0f3-8c9a1221304e" timestamp="2024-04-01T05:43:44.841Z" tests="5" failures="0" errors="0" time="0.004">
+    <testcase name="La solicitud GET fue completada con exito" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El código de estado de la respuesta es OK" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="La consulta fue completa con exito" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El producto fue encontrado!" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El tiempo de respuesta es menor a 600ms" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+  </testsuite>
+  <testsuite name="V1 / Happy Path / DELETE product by sku" id="13c12027-1a8b-451b-a17a-df78716c8861" timestamp="2024-04-01T05:43:44.841Z" tests="4" failures="0" errors="0" time="0.005">
+    <testcase name="La solicitud DELETE fue completada con exito" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El codigo de estado de la respuesta es OK" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El producto fue eliminado con exito" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El tiempo de respuesta es menor a 600ms" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+  </testsuite>
+  <testsuite name="V1 / Sad Path / Control de errores / CREATE product-nombre vacío" id="b3537eab-1939-4999-a118-cb6d5205b943" timestamp="2024-04-01T05:43:44.841Z" tests="4" failures="0" errors="0" time="0.003">
+    <testcase name="La solicitud POST no fue completada con exito" time="0.002" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El código de estado de la respuesta es Bad Request" time="0.002" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El producto no fue creado con exito" time="0.002" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="La respuesta presenta un esquema JSON inválido" time="0.002" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+  </testsuite>
+  <testsuite name="V1 / Sad Path / Control de errores / CREATE product-description vacío" id="507667d9-ce28-4a17-877d-14d4f0349337" timestamp="2024-04-01T05:43:44.841Z" tests="4" failures="0" errors="0" time="0.003">
+    <testcase name="La solicitud POST no fue completada con exito" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El código de estado de la respuesta es Bad Request" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El producto no fue creado con exito" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="La respuesta presenta un esquema JSON inválido" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+  </testsuite>
+  <testsuite name="V1 / Sad Path / Control de errores / CREATE product-precio vacío" id="f190b7c5-e269-4904-84bf-7d9542280353" timestamp="2024-04-01T05:43:44.841Z" tests="4" failures="0" errors="0" time="0.003">
+    <testcase name="La solicitud POST no fue completada con exito" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El código de estado de la respuesta es Bad Request" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El producto no fue creado con exito" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="La respuesta presenta un esquema JSON inválido" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+  </testsuite>
+  <testsuite name="V1 / Sad Path / Control de errores / UPDATE product by sku no existente" id="c01c35e6-873f-469d-809a-30b6bfc35978" timestamp="2024-04-01T05:43:44.841Z" tests="3" failures="0" errors="0" time="0.003">
+    <testcase name="La solicitud PUT no fue completada con exito" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El codigo de estado de la respuesta es Not Found" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El producto no fue actualizado con exito" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+  </testsuite>
+  <testsuite name="V1 / Sad Path / Control de errores / UPDATE product by sku no existente" id="81d33a35-e198-4b2c-aa76-93a7512c433d" timestamp="2024-04-01T05:43:44.841Z" tests="3" failures="0" errors="0" time="0.003">
+    <testcase name="La solicitud PUT no fue completada con exito" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El codigo de estado de la respuesta es Not Found" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El producto no fue actualizado con exito" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+  </testsuite>
+  <testsuite name="V1 / Sad Path / Control de errores / GET products path inválido" id="73078e15-03fd-4862-a44a-2933c3f80bc2" timestamp="2024-04-01T05:43:44.841Z" tests="3" failures="0" errors="0" time="0.003">
+    <testcase name="La solicitud GET no fue completada con exito" time="0.002" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El código de estado de la respuesta es Not Found" time="0.002" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El estado de la consulta no fue exitoso :(" time="0.002" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+  </testsuite>
+  <testsuite name="V1 / Sad Path / Control de errores / GET product by sku no existente" id="51a68787-90ec-4fe6-9bf8-5a15abb825ba" timestamp="2024-04-01T05:43:44.841Z" tests="2" failures="0" errors="0" time="0.004">
+    <testcase name="La consulta no fue completa con exito" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El producto no fue encontrado!" time="0.004" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+  </testsuite>
+  <testsuite name="V1 / Sad Path / Control de errores / DELETE product by sku no existente" id="4a84af8d-f7c0-474f-a9f9-9f999a2f4a02" timestamp="2024-04-01T05:43:44.841Z" tests="3" failures="0" errors="0" time="0.003">
+    <testcase name="La solicitud DELETE no fue completada con exito" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El codigo de estado de la respuesta es Not Found" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+    <testcase name="El producto no fue eliminado" time="0.003" classname="04ProductApiTestsVariablesConFlujoCompleto"/>
+  </testsuite>
+</testsuites>
